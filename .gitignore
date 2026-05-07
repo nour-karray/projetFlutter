@@ -31,7 +31,14 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+build/
 /coverage/
+
+# Python virtual environments and caches
+backend/.venv/
+.venv/
+venv/
+__pycache__/
 
 # Symbolication related
 app.*.symbols
