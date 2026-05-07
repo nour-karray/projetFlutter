@@ -11,7 +11,8 @@ class ScanResultStore extends ChangeNotifier {
   bool isProcessing = false;
   String? errorMessage;
 
-  bool get hasResult => extractedText != null && extractedText!.trim().isNotEmpty;
+  bool get hasResult =>
+      extractedText != null && extractedText!.trim().isNotEmpty;
 
   void startProcessing(String path, {required Uint8List bytes}) {
     imagePath = path;
@@ -34,7 +35,9 @@ class ScanResultStore extends ChangeNotifier {
     extractedText = text;
     medicalReport = report;
     detectedLanguageCode = languageCode;
-    detectedLanguageCodes = languageCodes.isEmpty ? const ['unknown'] : languageCodes;
+    detectedLanguageCodes = languageCodes.isEmpty
+        ? const ['unknown']
+        : languageCodes;
     isProcessing = false;
     errorMessage = null;
     notifyListeners();

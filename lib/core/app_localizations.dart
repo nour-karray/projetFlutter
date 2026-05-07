@@ -2,6 +2,7 @@ class AppLocalizations {
   static const Map<String, Map<String, String>> _values = {
     'fr': {
       'home': 'Accueil',
+      'documents': 'Documents',
       'scan': 'Scan',
       'result': 'Resultat',
       'history': 'Historique',
@@ -12,7 +13,8 @@ class AppLocalizations {
       'serviceOcrTitle': 'Service 1: OCR',
       'serviceOcrSubtitle': 'Reconnaissance de texte a partir d image',
       'serviceLanguageTitle': 'Service 2: Language ID',
-      'serviceLanguageSubtitle': 'Traduction automatique du resultat (FR/EN/AR)',
+      'serviceLanguageSubtitle':
+          'Traduction automatique du resultat (FR/EN/AR)',
       'detectedText': 'Texte detecte',
       'detectedLanguages': 'Langues detectees',
       'detectedLanguage': 'Langue detectee',
@@ -27,6 +29,22 @@ class AppLocalizations {
       'notifications': 'Notifications',
       'sounds': 'Sons',
       'vibration': 'Vibration',
+      'notificationsSetupSubtitle':
+          'Activez les rappels systeme, le son et la vibration.',
+      'feedbackPreviewTitle': 'Tester le son et la vibration',
+      'feedbackPreviewSubtitle':
+          'Verifie le retour tactile et sonore de l application.',
+      'notificationTestActionTitle': 'Envoyer une notification de test',
+      'notificationTestActionSubtitle':
+          'Affiche une vraie notification systeme sur votre telephone.',
+      'notificationPermissionDenied': 'Permission de notification refusee.',
+      'notificationTestSent': 'Notification de test envoyee.',
+      'notificationReminderTitle': 'SmartScan pense a vous',
+      'notificationReminderBody':
+          'Revenez scanner un document ou revoir vos resultats.',
+      'notificationTestTitle': 'Notification SmartScan',
+      'notificationTestBody':
+          'Le systeme de notifications, le son et la vibration sont actifs.',
       'webNoSoundVibration':
           'Inactif sur navigateur Web. Fonctionne sur Android / iOS (appareil reel).',
       'captureDocument': 'Capture du document',
@@ -73,7 +91,8 @@ class AppLocalizations {
       'medicalPdfShareSubject': 'Rapport medical SmartScan',
       'importPdf': 'Importer PDF',
       'historySectionTitle': 'Historique des scans',
-      'historyEmptySubtitle': 'Vos scans apparaitront ici apres votre premier document.',
+      'historyEmptySubtitle':
+          'Vos scans apparaitront ici apres votre premier document.',
       'clearHistory': 'Effacer l historique',
       'clearHistorySubtitle': 'Supprime tous les scans enregistres',
       'clearHistoryConfirm': 'Cette action est irreversible. Continuer ?',
@@ -103,12 +122,14 @@ class AppLocalizations {
       'scanPdfImport': 'Erreur import PDF',
       'ocrUnknownError': 'Erreur OCR inconnue.',
       'guidedPhotoModeTitle': 'Mode photo guidee',
-      'guidedPhotoModeSubtitle': 'Controle flou/luminosite + recadrage auto avant OCR.',
+      'guidedPhotoModeSubtitle':
+          'Controle flou/luminosite + recadrage auto avant OCR.',
       'guidedPhotoReport': 'Photo guidee',
       'guidedCropApplied': 'Recadrage document applique',
     },
     'en': {
       'home': 'Home',
+      'documents': 'Documents',
       'scan': 'Scan',
       'result': 'Result',
       'history': 'History',
@@ -134,6 +155,22 @@ class AppLocalizations {
       'notifications': 'Notifications',
       'sounds': 'Sounds',
       'vibration': 'Vibration',
+      'notificationsSetupSubtitle':
+          'Enable system reminders, sound and vibration feedback.',
+      'feedbackPreviewTitle': 'Test sound and vibration',
+      'feedbackPreviewSubtitle':
+          'Preview the tap sound and haptic response used by the app.',
+      'notificationTestActionTitle': 'Send a test notification',
+      'notificationTestActionSubtitle':
+          'Shows a real system notification on your phone.',
+      'notificationPermissionDenied': 'Notification permission was denied.',
+      'notificationTestSent': 'Test notification sent.',
+      'notificationReminderTitle': 'SmartScan is checking in',
+      'notificationReminderBody':
+          'Come back to scan a document or review your results.',
+      'notificationTestTitle': 'SmartScan notification',
+      'notificationTestBody':
+          'Notifications, sound and vibration are ready on this device.',
       'webNoSoundVibration':
           'Not available in the web browser. Works on Android / iOS (real device).',
       'captureDocument': 'Document capture',
@@ -180,7 +217,8 @@ class AppLocalizations {
       'medicalPdfShareSubject': 'SmartScan medical report',
       'importPdf': 'Import PDF',
       'historySectionTitle': 'Scan history',
-      'historyEmptySubtitle': 'Your scans will appear here after your first document.',
+      'historyEmptySubtitle':
+          'Your scans will appear here after your first document.',
       'clearHistory': 'Clear history',
       'clearHistorySubtitle': 'Delete all saved scans',
       'clearHistoryConfirm': 'This action cannot be undone. Continue?',
@@ -210,12 +248,14 @@ class AppLocalizations {
       'scanPdfImport': 'PDF import error',
       'ocrUnknownError': 'Unknown OCR error.',
       'guidedPhotoModeTitle': 'Guided photo mode',
-      'guidedPhotoModeSubtitle': 'Blur/light checks + auto document crop before OCR.',
+      'guidedPhotoModeSubtitle':
+          'Blur/light checks + auto document crop before OCR.',
       'guidedPhotoReport': 'Guided photo',
       'guidedCropApplied': 'Document auto-crop applied',
     },
     'ar': {
       'home': 'الرئيسية',
+      'documents': 'المستندات',
       'scan': 'المسح',
       'result': 'النتيجة',
       'history': 'السجل',
@@ -255,7 +295,8 @@ class AppLocalizations {
       'sectionNotifications': 'الإشعارات',
       'sectionAi': 'الذكاء الاصطناعي',
       'pasteFromClipboard': 'لصق',
-      'homeHeroSubtitle': 'امسح التحاليل الطبية واحصل على نتيجة واضحة قابلة للترجمة والتصدير.',
+      'homeHeroSubtitle':
+          'امسح التحاليل الطبية واحصل على نتيجة واضحة قابلة للترجمة والتصدير.',
       'exportPdf': 'تصدير PDF',
       'viewRawOcr': 'عرض نص OCR الخام',
       'shareAgain': 'مشاركة مرة أخرى',
@@ -289,7 +330,8 @@ class AppLocalizations {
       'historyEmptySubtitle': 'ستظهر عمليات المسح هنا بعد أول مستند.',
       'clearHistory': 'مسح السجل',
       'clearHistorySubtitle': 'حذف كل عمليات المسح المحفوظة',
-      'clearHistoryConfirm': 'هذا الإجراء لا يمكن التراجع عنه. هل تريد المتابعة؟',
+      'clearHistoryConfirm':
+          'هذا الإجراء لا يمكن التراجع عنه. هل تريد المتابعة؟',
       'cancel': 'إلغاء',
       'confirm': 'حذف',
       'historyCleared': 'تم مسح السجل.',
@@ -316,7 +358,8 @@ class AppLocalizations {
       'scanPdfImport': 'خطأ في استيراد PDF',
       'ocrUnknownError': 'خطأ OCR غير معروف.',
       'guidedPhotoModeTitle': 'وضع الصورة الموجّهة',
-      'guidedPhotoModeSubtitle': 'فحص الضبابية والإضاءة مع قص تلقائي للمستند قبل OCR.',
+      'guidedPhotoModeSubtitle':
+          'فحص الضبابية والإضاءة مع قص تلقائي للمستند قبل OCR.',
       'guidedPhotoReport': 'الصورة الموجهة',
       'guidedCropApplied': 'تم تطبيق القص التلقائي للمستند',
     },

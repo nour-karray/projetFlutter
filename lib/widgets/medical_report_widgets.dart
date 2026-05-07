@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/medical_report.dart';
+import '../theme/app_theme.dart';
+import 'app_surfaces.dart';
 
 class MedicalSummaryCard extends StatelessWidget {
   const MedicalSummaryCard({required this.report, super.key});
@@ -9,108 +11,133 @@ class MedicalSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Resume general', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Text('Type: ${report.documentType.name}'),
-            Text('Confiance: ${(report.confidence * 100).toStringAsFixed(1)} %'),
-            Text('Sections detectees: ${report.sections.length}'),
-            Text('Analyses detectees: ${report.sections.fold<int>(0, (p, e) => p + e.analyses.length)}'),
-          ],
-        ),
+    return AppPanel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Resume general', style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              _FactChip(label: 'Type', value: report.documentType.name),
+              _FactChip(
+                label: 'Confiance',
+                value: '${(report.confidence * 100).toStringAsFixed(1)} %',
+              ),
+              _FactChip(label: 'Sections', value: '${report.sections.length}'),
+              _FactChip(
+                label: 'Analyses',
+                value:
+                    '${report.sections.fold<int>(0, (sum, section) => sum + section.analyses.length)}',
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
 class MedicalInfoCard extends StatelessWidget {
-  const MedicalInfoCard({
-    required this.title,
-    required this.lines,
-    super.key,
-  });
+  const MedicalInfoCard({required this.title, required this.lines, super.key});
 
   final String title;
   final List<String> lines;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 6),
-            ...lines.map((line) => Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Text(line),
-                )),
-          ],
-        ),
+    final theme = Theme.of(context);
+    return AppPanel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: theme.textTheme.titleLarge),
+          const SizedBox(height: 12),
+          ...lines.map(
+            (line) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(line, style: theme.textTheme.bodyMedium),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class MedicalSectionCard extends StatelessWidget {
-  const MedicalSectionCard({
-    required this.section,
-    super.key,
-  });
+  const MedicalSectionCard({required this.section, super.key});
 
   final MedicalSection section;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(section.title, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 10),
-            if (section.analyses.isEmpty) const Text('Aucune analyse detectee.'),
-            ...section.analyses.map(
-              (analysis) => Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).dividerColor),
-                  borderRadius: BorderRadius.circular(10),
+    final theme = Theme.of(context);
+    return AppPanel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(section.title, style: theme.textTheme.titleLarge),
+          const SizedBox(height: 14),
+          if (section.analyses.isEmpty)
+            Text('Aucune analyse detectee.', style: theme.textTheme.bodyMedium),
+          ...section.analyses.map(
+            (analysis) => Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.52,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            analysis.name,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: theme.colorScheme.outlineVariant),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          analysis.name,
+                          style: theme.textTheme.titleMedium,
                         ),
-                        StatusBadge(flag: analysis.abnormalFlag),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text('Valeur: ${analysis.value ?? '-'} ${analysis.unit ?? ''}'),
-                    if (analysis.secondaryValue != null)
-                      Text('Valeur secondaire: ${analysis.secondaryValue} ${analysis.secondaryUnit ?? ''}'),
-                    Text('Reference: ${analysis.referenceText ?? '-'}'),
-                  ],
-                ),
+                      ),
+                      const SizedBox(width: 10),
+                      StatusBadge(flag: analysis.abnormalFlag),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      _FactChip(
+                        label: 'Valeur',
+                        value: '${analysis.value ?? '-'} ${analysis.unit ?? ''}'
+                            .trim(),
+                      ),
+                      if (analysis.secondaryValue != null)
+                        _FactChip(
+                          label: 'Valeur secondaire',
+                          value:
+                              '${analysis.secondaryValue} ${analysis.secondaryUnit ?? ''}'
+                                  .trim(),
+                        ),
+                      _FactChip(
+                        label: 'Reference',
+                        value: analysis.referenceText ?? '-',
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -124,20 +151,55 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (label, color) = switch (flag) {
-      AbnormalFlag.low => ('Bas', Colors.orange),
-      AbnormalFlag.high => ('Haut', Colors.red),
-      AbnormalFlag.normal => ('Normal', Colors.green),
+      AbnormalFlag.low => ('Bas', AppThemePalette.warning),
+      AbnormalFlag.high => ('Haut', AppThemePalette.danger),
+      AbnormalFlag.normal => ('Normal', AppThemePalette.success),
       AbnormalFlag.unknown => ('Inconnu', Colors.grey),
     };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
         label,
-        style: TextStyle(color: color, fontWeight: FontWeight.w600, fontSize: 12),
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.w700,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+}
+
+class _FactChip extends StatelessWidget {
+  const _FactChip({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      constraints: const BoxConstraints(minWidth: 110),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(
+          alpha: 0.52,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: theme.colorScheme.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: theme.textTheme.labelSmall),
+          const SizedBox(height: 4),
+          Text(value, style: theme.textTheme.labelLarge),
+        ],
       ),
     );
   }

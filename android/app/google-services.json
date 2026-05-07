@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "332437452947",
-    "project_id": "smartscan-mlkit-c2182",
-    "storage_bucket": "smartscan-mlkit-c2182.firebasestorage.app"
+    "project_number": "428478321381",
+    "project_id": "myproject-a7f60",
+    "storage_bucket": "myproject-a7f60.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:332437452947:android:14352f4afc41f756297566",
+        "mobilesdk_app_id": "1:428478321381:android:ae1216128a4da08c0f7a0c",
         "android_client_info": {
           "package_name": "com.example.smartscan_mlkit"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDbeWhA6h-JFkfMn-DKnttOPjAHei1WSA4"
+          "current_key": "AIzaSyDmvEZU6JH3bUWNW5hV2sZMPL8cfRUPuWU"
         }
       ],
       "services": {

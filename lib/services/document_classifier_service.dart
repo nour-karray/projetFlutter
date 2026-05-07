@@ -43,15 +43,19 @@ class DocumentClassifierService {
     ).allMatches(normalized).length;
     final unitDensityScore = (numericUnitMatches / 6).clamp(0, 1).toDouble();
 
-    final headerSignal = normalized.contains('resultat') ||
+    final headerSignal =
+        normalized.contains('resultat') ||
         normalized.contains('analyse') ||
         normalized.contains('laboratoire');
     final headerBoost = headerSignal ? 0.10 : 0.0;
 
-    final score = (keywordScore * 0.75) + (unitDensityScore * 0.25) + headerBoost;
+    final score =
+        (keywordScore * 0.75) + (unitDensityScore * 0.25) + headerBoost;
 
     return DocumentDetectionResult(
-      documentType: score >= medicalThreshold ? DocumentType.medicalReport : DocumentType.unknown,
+      documentType: score >= medicalThreshold
+          ? DocumentType.medicalReport
+          : DocumentType.unknown,
       medicalScore: score,
       threshold: medicalThreshold,
     );

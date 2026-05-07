@@ -54,34 +54,47 @@ class MedicalReport {
   }
 
   Map<String, dynamic> toJson() => {
-        'documentType': documentType.name,
-        'sourceFileName': sourceFileName,
-        'extractedAt': extractedAt.toIso8601String(),
-        'labInfo': labInfo.toJson(),
-        'patientInfo': patientInfo.toJson(),
-        'doctorInfo': doctorInfo.toJson(),
-        'reportInfo': reportInfo.toJson(),
-        'sections': sections.map((e) => e.toJson()).toList(),
-        'rawText': rawText,
-        'confidence': confidence,
-      };
+    'documentType': documentType.name,
+    'sourceFileName': sourceFileName,
+    'extractedAt': extractedAt.toIso8601String(),
+    'labInfo': labInfo.toJson(),
+    'patientInfo': patientInfo.toJson(),
+    'doctorInfo': doctorInfo.toJson(),
+    'reportInfo': reportInfo.toJson(),
+    'sections': sections.map((e) => e.toJson()).toList(),
+    'rawText': rawText,
+    'confidence': confidence,
+  };
 
   factory MedicalReport.fromJson(Map<String, dynamic> json) {
     final type = (json['documentType'] ?? '').toString();
     return MedicalReport(
-      documentType:
-          type == DocumentType.medicalReport.name ? DocumentType.medicalReport : DocumentType.unknown,
+      documentType: type == DocumentType.medicalReport.name
+          ? DocumentType.medicalReport
+          : DocumentType.unknown,
       sourceFileName: (json['sourceFileName'] ?? '').toString(),
-      extractedAt: DateTime.tryParse((json['extractedAt'] ?? '').toString()) ?? DateTime.now(),
-      labInfo: LabInfo.fromJson(Map<String, dynamic>.from(json['labInfo'] ?? const {})),
-      patientInfo: PatientInfo.fromJson(Map<String, dynamic>.from(json['patientInfo'] ?? const {})),
-      doctorInfo: DoctorInfo.fromJson(Map<String, dynamic>.from(json['doctorInfo'] ?? const {})),
-      reportInfo: ReportInfo.fromJson(Map<String, dynamic>.from(json['reportInfo'] ?? const {})),
+      extractedAt:
+          DateTime.tryParse((json['extractedAt'] ?? '').toString()) ??
+          DateTime.now(),
+      labInfo: LabInfo.fromJson(
+        Map<String, dynamic>.from(json['labInfo'] ?? const {}),
+      ),
+      patientInfo: PatientInfo.fromJson(
+        Map<String, dynamic>.from(json['patientInfo'] ?? const {}),
+      ),
+      doctorInfo: DoctorInfo.fromJson(
+        Map<String, dynamic>.from(json['doctorInfo'] ?? const {}),
+      ),
+      reportInfo: ReportInfo.fromJson(
+        Map<String, dynamic>.from(json['reportInfo'] ?? const {}),
+      ),
       sections: (json['sections'] is List)
           ? (json['sections'] as List)
-              .whereType<Map>()
-              .map((e) => MedicalSection.fromJson(Map<String, dynamic>.from(e)))
-              .toList(growable: false)
+                .whereType<Map>()
+                .map(
+                  (e) => MedicalSection.fromJson(Map<String, dynamic>.from(e)),
+                )
+                .toList(growable: false)
           : const <MedicalSection>[],
       rawText: (json['rawText'] ?? '').toString(),
       confidence: ((json['confidence'] ?? 0.0) as num).toDouble(),
@@ -90,13 +103,7 @@ class MedicalReport {
 }
 
 class LabInfo {
-  const LabInfo({
-    this.name,
-    this.address,
-    this.phone,
-    this.email,
-    this.city,
-  });
+  const LabInfo({this.name, this.address, this.phone, this.email, this.city});
 
   final String? name;
   final String? address;
@@ -121,20 +128,20 @@ class LabInfo {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'address': address,
-        'phone': phone,
-        'email': email,
-        'city': city,
-      };
+    'name': name,
+    'address': address,
+    'phone': phone,
+    'email': email,
+    'city': city,
+  };
 
   factory LabInfo.fromJson(Map<String, dynamic> json) => LabInfo(
-        name: json['name']?.toString(),
-        address: json['address']?.toString(),
-        phone: json['phone']?.toString(),
-        email: json['email']?.toString(),
-        city: json['city']?.toString(),
-      );
+    name: json['name']?.toString(),
+    address: json['address']?.toString(),
+    phone: json['phone']?.toString(),
+    email: json['email']?.toString(),
+    city: json['city']?.toString(),
+  );
 }
 
 class PatientInfo {
@@ -165,33 +172,27 @@ class PatientInfo {
   }
 
   Map<String, dynamic> toJson() => {
-        'fullName': fullName,
-        'codePatient': codePatient,
-        'dossierNumber': dossierNumber,
-        'organism': organism,
-      };
+    'fullName': fullName,
+    'codePatient': codePatient,
+    'dossierNumber': dossierNumber,
+    'organism': organism,
+  };
 
   factory PatientInfo.fromJson(Map<String, dynamic> json) => PatientInfo(
-        fullName: json['fullName']?.toString(),
-        codePatient: json['codePatient']?.toString(),
-        dossierNumber: json['dossierNumber']?.toString(),
-        organism: json['organism']?.toString(),
-      );
+    fullName: json['fullName']?.toString(),
+    codePatient: json['codePatient']?.toString(),
+    dossierNumber: json['dossierNumber']?.toString(),
+    organism: json['organism']?.toString(),
+  );
 }
 
 class DoctorInfo {
-  const DoctorInfo({
-    this.requesterName,
-    this.validatorName,
-  });
+  const DoctorInfo({this.requesterName, this.validatorName});
 
   final String? requesterName;
   final String? validatorName;
 
-  DoctorInfo copyWith({
-    String? requesterName,
-    String? validatorName,
-  }) {
+  DoctorInfo copyWith({String? requesterName, String? validatorName}) {
     return DoctorInfo(
       requesterName: requesterName ?? this.requesterName,
       validatorName: validatorName ?? this.validatorName,
@@ -199,14 +200,14 @@ class DoctorInfo {
   }
 
   Map<String, dynamic> toJson() => {
-        'requesterName': requesterName,
-        'validatorName': validatorName,
-      };
+    'requesterName': requesterName,
+    'validatorName': validatorName,
+  };
 
   factory DoctorInfo.fromJson(Map<String, dynamic> json) => DoctorInfo(
-        requesterName: json['requesterName']?.toString(),
-        validatorName: json['validatorName']?.toString(),
-      );
+    requesterName: json['requesterName']?.toString(),
+    validatorName: json['validatorName']?.toString(),
+  );
 }
 
 class ReportInfo {
@@ -237,33 +238,27 @@ class ReportInfo {
   }
 
   Map<String, dynamic> toJson() => {
-        'reportDate': reportDate,
-        'sampleDate': sampleDate,
-        'examNumber': examNumber,
-        'pageNumber': pageNumber,
-      };
+    'reportDate': reportDate,
+    'sampleDate': sampleDate,
+    'examNumber': examNumber,
+    'pageNumber': pageNumber,
+  };
 
   factory ReportInfo.fromJson(Map<String, dynamic> json) => ReportInfo(
-        reportDate: json['reportDate']?.toString(),
-        sampleDate: json['sampleDate']?.toString(),
-        examNumber: json['examNumber']?.toString(),
-        pageNumber: json['pageNumber']?.toString(),
-      );
+    reportDate: json['reportDate']?.toString(),
+    sampleDate: json['sampleDate']?.toString(),
+    examNumber: json['examNumber']?.toString(),
+    pageNumber: json['pageNumber']?.toString(),
+  );
 }
 
 class MedicalSection {
-  const MedicalSection({
-    required this.title,
-    required this.analyses,
-  });
+  const MedicalSection({required this.title, required this.analyses});
 
   final String title;
   final List<MedicalAnalysis> analyses;
 
-  MedicalSection copyWith({
-    String? title,
-    List<MedicalAnalysis>? analyses,
-  }) {
+  MedicalSection copyWith({String? title, List<MedicalAnalysis>? analyses}) {
     return MedicalSection(
       title: title ?? this.title,
       analyses: analyses ?? this.analyses,
@@ -271,19 +266,21 @@ class MedicalSection {
   }
 
   Map<String, dynamic> toJson() => {
-        'title': title,
-        'analyses': analyses.map((e) => e.toJson()).toList(),
-      };
+    'title': title,
+    'analyses': analyses.map((e) => e.toJson()).toList(),
+  };
 
   factory MedicalSection.fromJson(Map<String, dynamic> json) => MedicalSection(
-        title: (json['title'] ?? '').toString(),
-        analyses: (json['analyses'] is List)
-            ? (json['analyses'] as List)
-                .whereType<Map>()
-                .map((e) => MedicalAnalysis.fromJson(Map<String, dynamic>.from(e)))
-                .toList(growable: false)
-            : const <MedicalAnalysis>[],
-      );
+    title: (json['title'] ?? '').toString(),
+    analyses: (json['analyses'] is List)
+        ? (json['analyses'] as List)
+              .whereType<Map>()
+              .map(
+                (e) => MedicalAnalysis.fromJson(Map<String, dynamic>.from(e)),
+              )
+              .toList(growable: false)
+        : const <MedicalAnalysis>[],
+  );
 }
 
 class MedicalAnalysis {
@@ -354,21 +351,21 @@ class MedicalAnalysis {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'value': value,
-        'unit': unit,
-        'secondaryValue': secondaryValue,
-        'secondaryUnit': secondaryUnit,
-        'referenceText': referenceText,
-        'referenceMin': referenceMin,
-        'referenceMax': referenceMax,
-        'previousValue': previousValue,
-        'previousDate': previousDate,
-        'technique': technique,
-        'interpretation': interpretation,
-        'abnormalFlag': abnormalFlag.name,
-        'confidence': confidence,
-      };
+    'name': name,
+    'value': value,
+    'unit': unit,
+    'secondaryValue': secondaryValue,
+    'secondaryUnit': secondaryUnit,
+    'referenceText': referenceText,
+    'referenceMin': referenceMin,
+    'referenceMax': referenceMax,
+    'previousValue': previousValue,
+    'previousDate': previousDate,
+    'technique': technique,
+    'interpretation': interpretation,
+    'abnormalFlag': abnormalFlag.name,
+    'confidence': confidence,
+  };
 
   factory MedicalAnalysis.fromJson(Map<String, dynamic> json) {
     final rawFlag = (json['abnormalFlag'] ?? '').toString();

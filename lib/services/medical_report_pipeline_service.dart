@@ -7,8 +7,8 @@ class MedicalReportPipelineService {
   MedicalReportPipelineService({
     DocumentClassifierService? classifier,
     MedicalReportParser? parser,
-  })  : _classifier = classifier ?? const DocumentClassifierService(),
-        _parser = parser ?? const MedicalReportParser();
+  }) : _classifier = classifier ?? const DocumentClassifierService(),
+       _parser = parser ?? const MedicalReportParser();
 
   final DocumentClassifierService _classifier;
   final MedicalReportParser _parser;
@@ -25,7 +25,10 @@ class MedicalReportPipelineService {
       documentType: detection.documentType,
       confidence: detection.medicalScore,
     );
-    final totalAnalyses = parsed.sections.fold<int>(0, (sum, section) => sum + section.analyses.length);
+    final totalAnalyses = parsed.sections.fold<int>(
+      0,
+      (sum, section) => sum + section.analyses.length,
+    );
     if (parsed.documentType == DocumentType.unknown && totalAnalyses >= 2) {
       // Parser evidence is strong enough to reclassify as medical.
       return parsed.copyWith(

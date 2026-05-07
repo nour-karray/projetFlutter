@@ -2,11 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class OcrServiceResult {
-  const OcrServiceResult({
-    required this.success,
-    this.text,
-    this.errorMessage,
-  });
+  const OcrServiceResult({required this.success, this.text, this.errorMessage});
 
   final bool success;
   final String? text;
@@ -67,5 +63,4 @@ class OcrService {
       await textRecognizer.close();
     }
   }
-
 }

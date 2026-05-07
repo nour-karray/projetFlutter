@@ -2,7 +2,10 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 /// Miniature pour l historique (evite de saturer SharedPreferences).
-Future<Uint8List?> encodeThumbnailPng(Uint8List imageBytes, {int maxWidth = 320}) async {
+Future<Uint8List?> encodeThumbnailPng(
+  Uint8List imageBytes, {
+  int maxWidth = 320,
+}) async {
   try {
     final codec = await ui.instantiateImageCodec(
       imageBytes,

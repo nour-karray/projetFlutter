@@ -58,7 +58,13 @@ class GuidedPhotoPreprocessor {
       final w = cropRect[2];
       final h = cropRect[3];
       if (w > 100 && h > 100) {
-        working = img.copyCrop(decoded, x: cropRect[0], y: cropRect[1], width: w, height: h);
+        working = img.copyCrop(
+          decoded,
+          x: cropRect[0],
+          y: cropRect[1],
+          width: w,
+          height: h,
+        );
         cropped = true;
       }
     }
@@ -162,8 +168,11 @@ class GuidedPhotoPreprocessor {
   Future<String?> _persistTempJpg(Uint8List bytes, String fileName) async {
     try {
       final dir = await getTemporaryDirectory();
-      final stem = p.basenameWithoutExtension(fileName).replaceAll(RegExp(r'\s+'), '_');
-      final outputName = '${stem}_guided_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final stem = p
+          .basenameWithoutExtension(fileName)
+          .replaceAll(RegExp(r'\s+'), '_');
+      final outputName =
+          '${stem}_guided_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final outFile = File(p.join(dir.path, outputName));
       await outFile.writeAsBytes(bytes, flush: true);
       return outFile.path;

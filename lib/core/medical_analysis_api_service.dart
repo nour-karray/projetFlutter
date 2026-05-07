@@ -62,13 +62,18 @@ class MedicalStructuredExtractionResult {
   final PatientMedecinInfo patientMedecin;
   final List<MedicalAnalysisRow> resultatsAnalyses;
 
-  factory MedicalStructuredExtractionResult.fromJson(Map<String, dynamic> json) {
+  factory MedicalStructuredExtractionResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
     final patientRaw = json['patient_medecin'];
     final rowsRaw = json['resultats_analyses'];
     final rows = rowsRaw is List
         ? rowsRaw
               .whereType<Map>()
-              .map((row) => MedicalAnalysisRow.fromJson(Map<String, dynamic>.from(row)))
+              .map(
+                (row) =>
+                    MedicalAnalysisRow.fromJson(Map<String, dynamic>.from(row)),
+              )
               .where((row) => row.analyse.trim().isNotEmpty)
               .toList(growable: false)
         : const <MedicalAnalysisRow>[];
@@ -76,7 +81,9 @@ class MedicalStructuredExtractionResult {
     return MedicalStructuredExtractionResult(
       documentType: (json['document_type'] ?? 'analyse_medicale').toString(),
       patientMedecin: PatientMedecinInfo.fromJson(
-        patientRaw is Map<String, dynamic> ? patientRaw : const <String, dynamic>{},
+        patientRaw is Map<String, dynamic>
+            ? patientRaw
+            : const <String, dynamic>{},
       ),
       resultatsAnalyses: rows,
     );
@@ -87,8 +94,8 @@ class MedicalAnalysisApiService {
   MedicalAnalysisApiService({
     required String geminiApiKey,
     String? backendBaseUrl,
-  })  : _geminiApiKey = geminiApiKey.trim(),
-        _backendBaseUrl = (backendBaseUrl ?? _defaultBackendBaseUrl()).trim();
+  }) : _geminiApiKey = geminiApiKey.trim(),
+       _backendBaseUrl = (backendBaseUrl ?? _defaultBackendBaseUrl()).trim();
 
   final String _geminiApiKey;
   final String _backendBaseUrl;
@@ -129,7 +136,9 @@ class MedicalAnalysisApiService {
       throw Exception('Reponse backend invalide.');
     }
     if (response.statusCode != 200 || payload['success'] != true) {
-      throw Exception((payload['error'] ?? 'Echec extraction medicale.').toString());
+      throw Exception(
+        (payload['error'] ?? 'Echec extraction medicale.').toString(),
+      );
     }
     final data = payload['data'];
     if (data is! Map<String, dynamic>) {

@@ -55,7 +55,12 @@ class MedicalReportParser {
 
     void flushSection() {
       if (currentAnalyses.isEmpty) return;
-      sections.add(MedicalSection(title: currentTitle, analyses: List<MedicalAnalysis>.from(currentAnalyses)));
+      sections.add(
+        MedicalSection(
+          title: currentTitle,
+          analyses: List<MedicalAnalysis>.from(currentAnalyses),
+        ),
+      );
       currentAnalyses.clear();
     }
 
@@ -93,9 +98,15 @@ class MedicalReportParser {
     return sections;
   }
 
-  MedicalAnalysis? _parseAnalysisLine(String line, String? nextLine, String? thirdLine) {
+  MedicalAnalysis? _parseAnalysisLine(
+    String line,
+    String? nextLine,
+    String? thirdLine,
+  ) {
     final normalized = line.toLowerCase();
-    final isKnown = MedicalDictionary.knownAnalyses.any((k) => normalized.contains(k));
+    final isKnown = MedicalDictionary.knownAnalyses.any(
+      (k) => normalized.contains(k),
+    );
     final hasNumber = MedicalRegex.number.hasMatch(line);
     final hasUnit = MedicalRegex.unit.hasMatch(normalized);
     final next = nextLine ?? '';
@@ -116,13 +127,21 @@ class MedicalReportParser {
     final parseLine = (hasNumber || hasUnit)
         ? line
         : (nextHasNumber || nextHasUnit)
-            ? next
-            : third;
+        ? next
+        : third;
     final parseLineNormalized = parseLine.toLowerCase();
     final unitMatch = MedicalRegex.unit.firstMatch(parseLineNormalized);
     final valueMatch = MedicalRegex.number.firstMatch(parseLine);
-    final values = MedicalRegex.number.allMatches(parseLine).map((e) => e.group(1)!).toList(growable: false);
-    final analysisName = _extractAnalysisNameFromPair(line, parseLine, next, third);
+    final values = MedicalRegex.number
+        .allMatches(parseLine)
+        .map((e) => e.group(1)!)
+        .toList(growable: false);
+    final analysisName = _extractAnalysisNameFromPair(
+      line,
+      parseLine,
+      next,
+      third,
+    );
     if (!_isPlausibleAnalysisName(analysisName)) {
       return null;
     }
@@ -145,14 +164,17 @@ class MedicalReportParser {
       referenceMax: ref.$2,
       previousValue: null,
       previousDate: null,
-      technique: (nextLine != null && nextLine.toLowerCase().contains('technique')) ? nextLine : null,
+      technique:
+          (nextLine != null && nextLine.toLowerCase().contains('technique'))
+          ? nextLine
+          : null,
       interpretation: null,
       abnormalFlag: abnormalFlag,
       confidence: isKnown
           ? 0.88
           : (nextHasNumber && nextHasUnit) || (thirdHasNumber && thirdHasUnit)
-              ? 0.74
-              : 0.62,
+          ? 0.74
+          : 0.62,
     );
   }
 
@@ -164,7 +186,11 @@ class MedicalReportParser {
     }
     final range = MedicalRegex.range.firstMatch(joined);
     if (range != null) {
-      return (_toDouble(range.group(1)), _toDouble(range.group(2)), range.group(0));
+      return (
+        _toDouble(range.group(1)),
+        _toDouble(range.group(2)),
+        range.group(0),
+      );
     }
     final lt = MedicalRegex.lowerThan.firstMatch(joined);
     if (lt != null) {
@@ -324,7 +350,8 @@ class MedicalReportParser {
           }
         }
       }
-      if (validator == null && (lower.contains('valide') || lower.contains('biologiste'))) {
+      if (validator == null &&
+          (lower.contains('valide') || lower.contains('biologiste'))) {
         validator = _extractDoctorFromLine(line) ?? line;
       }
     }
@@ -346,7 +373,10 @@ class MedicalReportParser {
 
   ReportInfo _extractReportInfo(List<String> lines) {
     final allText = lines.join('\n');
-    final dates = MedicalRegex.date.allMatches(allText).map((e) => e.group(0)!).toList(growable: false);
+    final dates = MedicalRegex.date
+        .allMatches(allText)
+        .map((e) => e.group(0)!)
+        .toList(growable: false);
     return ReportInfo(
       reportDate: dates.isNotEmpty ? dates.first : null,
       sampleDate: dates.length > 1 ? dates[1] : null,
@@ -386,8 +416,10 @@ class MedicalReportParser {
       return null;
     }
 
-    final titled = RegExp(r'\b(mme|mr|m\.|mlle)\b\.?\s+([a-z][a-z\s\-]{2,})', caseSensitive: false)
-        .firstMatch(trimmed);
+    final titled = RegExp(
+      r'\b(mme|mr|m\.|mlle)\b\.?\s+([a-z][a-z\s\-]{2,})',
+      caseSensitive: false,
+    ).firstMatch(trimmed);
     if (titled != null) {
       final prefix = titled.group(1)!.trim();
       final name = titled.group(2)!.trim();
@@ -410,11 +442,16 @@ class MedicalReportParser {
 
   bool _isDoctorLine(String line) {
     final lower = line.toLowerCase();
-    return lower.contains('dr ') || lower.startsWith('dr.') || lower.startsWith('dr ');
+    return lower.contains('dr ') ||
+        lower.startsWith('dr.') ||
+        lower.startsWith('dr ');
   }
 
   String? _extractDoctorFromLine(String line) {
-    final match = RegExp(r'(dr\.?\s+[a-z][a-z\s\-]+)', caseSensitive: false).firstMatch(line);
+    final match = RegExp(
+      r'(dr\.?\s+[a-z][a-z\s\-]+)',
+      caseSensitive: false,
+    ).firstMatch(line);
     return match?.group(1)?.trim();
   }
 }

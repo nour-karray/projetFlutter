@@ -56,7 +56,10 @@ class MlKitLanguageService {
       (l) => l.bcpCode == targetLanguageCode,
       orElse: () => TranslateLanguage.french,
     );
-    final translator = OnDeviceTranslator(sourceLanguage: source, targetLanguage: target);
+    final translator = OnDeviceTranslator(
+      sourceLanguage: source,
+      targetLanguage: target,
+    );
     try {
       return await translator.translateText(text);
     } finally {
@@ -78,7 +81,10 @@ class MlKitLanguageService {
       (l) => l.bcpCode == targetLanguageCode,
       orElse: () => TranslateLanguage.french,
     );
-    final translator = OnDeviceTranslator(sourceLanguage: source, targetLanguage: target);
+    final translator = OnDeviceTranslator(
+      sourceLanguage: source,
+      targetLanguage: target,
+    );
     try {
       final out = <String>[];
       for (final text in texts) {

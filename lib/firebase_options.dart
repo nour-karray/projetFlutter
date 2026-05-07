@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'smartscan-mlkit-c2182.firebasestorage.app',
     measurementId: 'G-HJLJ1XHV40',
   );
-
 }

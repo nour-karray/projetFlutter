@@ -84,8 +84,11 @@ class LanguageDetector {
       if (w.contains(' ')) {
         if (normalized.contains(w)) score['fr'] = score['fr']! + 5;
       } else {
-        if (RegExp(r'(^|[^a-zàâäéèêëïîôùûüç])' + RegExp.escape(w) + r'([^a-zàâäéèêëïîôùûüç]|$)')
-            .hasMatch(normalized)) {
+        if (RegExp(
+          r'(^|[^a-zàâäéèêëïîôùûüç])' +
+              RegExp.escape(w) +
+              r'([^a-zàâäéèêëïîôùûüç]|$)',
+        ).hasMatch(normalized)) {
           score['fr'] = score['fr']! + 5;
         }
       }
@@ -94,8 +97,9 @@ class LanguageDetector {
       if (w.contains(' ')) {
         if (normalized.contains(w)) score['en'] = score['en']! + 5;
       } else {
-        if (RegExp(r'(^|[^a-z])' + RegExp.escape(w) + r'([^a-z]|$)')
-            .hasMatch(normalized)) {
+        if (RegExp(
+          r'(^|[^a-z])' + RegExp.escape(w) + r'([^a-z]|$)',
+        ).hasMatch(normalized)) {
           score['en'] = score['en']! + 5;
         }
       }

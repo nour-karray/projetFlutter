@@ -94,11 +94,9 @@ class MedicalReportAiExtraction {
 }
 
 class MedicalAiService {
-  MedicalAiService({
-    required String apiKey,
-    String model = 'gemini-2.5-flash',
-  })  : _apiKey = apiKey.trim(),
-        _model = model;
+  MedicalAiService({required String apiKey, String model = 'gemini-2.5-flash'})
+    : _apiKey = apiKey.trim(),
+      _model = model;
 
   final String _apiKey;
   final String _model;
@@ -111,16 +109,15 @@ class MedicalAiService {
 
   Future<MedicalAnalysisResult> analyzeMedicalText(String reportText) async {
     if (!isConfigured) {
-      throw Exception(
-        'Cle API Gemini manquante. Ajoute-la dans Parametres.',
-      );
+      throw Exception('Cle API Gemini manquante. Ajoute-la dans Parametres.');
     }
     final preparedText = MedicalOcrPostprocessor.normalizeForAi(reportText);
     if (preparedText.trim().isEmpty) {
       throw Exception('Aucun texte a analyser.');
     }
 
-    final prompt = '''
+    final prompt =
+        '''
 Tu es un assistant d extraction d informations medicales.
 Analyse le texte OCR d un bilan medical et retourne UNIQUEMENT un JSON valide sans markdown.
 Ignore les artefacts OCR evidents (espaces parasites, O/0, I/1, erreurs ponctuation), mais n invente aucune valeur.
@@ -163,7 +160,9 @@ $preparedText
     );
   }
 
-  Future<MedicalReportAiExtraction> extractMedicalReportEntities(String reportText) async {
+  Future<MedicalReportAiExtraction> extractMedicalReportEntities(
+    String reportText,
+  ) async {
     if (!isConfigured) {
       throw Exception('Cle API Gemini manquante. Ajoute-la dans Parametres.');
     }
@@ -172,7 +171,8 @@ $preparedText
       throw Exception('Aucun texte a analyser.');
     }
 
-    final prompt = '''
+    final prompt =
+        '''
 Tu es un extracteur d informations medicales.
 Tu recois un texte OCR d'un bilan biologique et tu dois extraire les champs suivants.
 Retourne UNIQUEMENT un JSON valide, sans markdown.
@@ -202,7 +202,10 @@ $preparedText
     Object? lastError;
     for (final model in modelsToTry) {
       try {
-        final response = await _requestJsonWithRetry(model: model, prompt: prompt);
+        final response = await _requestJsonWithRetry(
+          model: model,
+          prompt: prompt,
+        );
         return MedicalReportAiExtraction.fromJson(response);
       } catch (e) {
         lastError = e;
@@ -259,7 +262,9 @@ $preparedText
           response.statusCode == 500 ||
           response.statusCode == 503;
       if (!isRetriable || attempt == maxAttempts) {
-        throw Exception('Erreur Gemini HTTP ${response.statusCode} (model=$model): ${response.body}');
+        throw Exception(
+          'Erreur Gemini HTTP ${response.statusCode} (model=$model): ${response.body}',
+        );
       }
       await Future<void>.delayed(Duration(milliseconds: attempt * 1200));
     }

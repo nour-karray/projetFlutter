@@ -29,10 +29,7 @@ class MedicalReportPdfService {
     if (kIsWeb) return;
     try {
       await SharePlus.instance.share(
-        ShareParams(
-          files: [XFile(path)],
-          subject: subject,
-        ),
+        ShareParams(files: [XFile(path)], subject: subject),
       );
     } catch (e, st) {
       debugPrint('MedicalReportPdfService._sharePdfFile failed: $e\n$st');
@@ -98,7 +95,9 @@ class MedicalReportPdfService {
                   .toList(growable: false),
               cellAlignment: pw.Alignment.centerLeft,
               headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-              headerDecoration: const pw.BoxDecoration(color: PdfColors.grey300),
+              headerDecoration: const pw.BoxDecoration(
+                color: PdfColors.grey300,
+              ),
             ),
           pw.SizedBox(height: 14),
           pw.Text(
@@ -153,7 +152,11 @@ class MedicalReportPdfService {
           pw.SizedBox(height: 12),
           pw.Text(
             'Resultats principaux',
-            style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 13, color: PdfColors.blue800),
+            style: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+              fontSize: 13,
+              color: PdfColors.blue800,
+            ),
           ),
           pw.SizedBox(height: 6),
           _buildMainResultsTable(report),
@@ -172,10 +175,16 @@ class MedicalReportPdfService {
         build: (context) => [
           pw.Text(
             'Annexe detaillee par section',
-            style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold, color: PdfColors.blue800),
+            style: pw.TextStyle(
+              fontSize: 16,
+              fontWeight: pw.FontWeight.bold,
+              color: PdfColors.blue800,
+            ),
           ),
           pw.SizedBox(height: 8),
-          ...report.sections.expand((section) => _buildDetailedSection(section)),
+          ...report.sections.expand(
+            (section) => _buildDetailedSection(section),
+          ),
         ],
       ),
     );
@@ -184,7 +193,10 @@ class MedicalReportPdfService {
       doc.addPage(
         pw.MultiPage(
           build: (context) => [
-            pw.Text('Annexe - Texte OCR brut', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14)),
+            pw.Text(
+              'Annexe - Texte OCR brut',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14),
+            ),
             pw.SizedBox(height: 8),
             ..._buildChunkedText(report.rawText),
           ],
@@ -193,11 +205,16 @@ class MedicalReportPdfService {
     }
 
     if (includeRawJson) {
-      final prettyJson = const JsonEncoder.withIndent('  ').convert(report.toJson());
+      final prettyJson = const JsonEncoder.withIndent(
+        '  ',
+      ).convert(report.toJson());
       doc.addPage(
         pw.MultiPage(
           build: (context) => [
-            pw.Text('Annexe - JSON brut', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14)),
+            pw.Text(
+              'Annexe - JSON brut',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14),
+            ),
             pw.SizedBox(height: 8),
             ..._buildChunkedText(prettyJson),
           ],
@@ -239,11 +256,19 @@ class MedicalReportPdfService {
             children: [
               pw.Text(
                 _latin1ForPdf(report.labInfo.name ?? 'Laboratoire'),
-                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14),
+                style: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
-              pw.Text(_latin1ForPdf(report.labInfo.address ?? '-'), style: const pw.TextStyle(fontSize: 10)),
               pw.Text(
-                _latin1ForPdf('Tel: ${report.labInfo.phone ?? '-'} | Email: ${report.labInfo.email ?? '-'}'),
+                _latin1ForPdf(report.labInfo.address ?? '-'),
+                style: const pw.TextStyle(fontSize: 10),
+              ),
+              pw.Text(
+                _latin1ForPdf(
+                  'Tel: ${report.labInfo.phone ?? '-'} | Email: ${report.labInfo.email ?? '-'}',
+                ),
                 style: const pw.TextStyle(fontSize: 10),
               ),
             ],
@@ -251,9 +276,18 @@ class MedicalReportPdfService {
           pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.end,
             children: [
-              pw.Text('COMPTE-RENDU LABORATOIRE', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-              pw.Text('Genere le: ${now.toIso8601String().substring(0, 19)}', style: const pw.TextStyle(fontSize: 9)),
-              pw.Text(_latin1ForPdf('Source: ${report.sourceFileName}'), style: const pw.TextStyle(fontSize: 9)),
+              pw.Text(
+                'COMPTE-RENDU LABORATOIRE',
+                style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              ),
+              pw.Text(
+                'Genere le: ${now.toIso8601String().substring(0, 19)}',
+                style: const pw.TextStyle(fontSize: 9),
+              ),
+              pw.Text(
+                _latin1ForPdf('Source: ${report.sourceFileName}'),
+                style: const pw.TextStyle(fontSize: 9),
+              ),
             ],
           ),
         ],
@@ -269,9 +303,20 @@ class MedicalReportPdfService {
           children: [
             pw.SizedBox(
               width: 120,
-              child: pw.Text(label, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10)),
+              child: pw.Text(
+                label,
+                style: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 10,
+                ),
+              ),
             ),
-            pw.Expanded(child: pw.Text(_latin1ForPdf(value), style: const pw.TextStyle(fontSize: 10))),
+            pw.Expanded(
+              child: pw.Text(
+                _latin1ForPdf(value),
+                style: const pw.TextStyle(fontSize: 10),
+              ),
+            ),
           ],
         ),
       );
@@ -286,7 +331,13 @@ class MedicalReportPdfService {
       child: pw.Column(
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         children: [
-          pw.Text('Resume patient', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.blue800)),
+          pw.Text(
+            'Resume patient',
+            style: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+              color: PdfColors.blue800,
+            ),
+          ),
           pw.SizedBox(height: 6),
           row('Patient', report.patientInfo.fullName ?? '-'),
           row('Code patient', report.patientInfo.codePatient ?? '-'),
@@ -302,8 +353,17 @@ class MedicalReportPdfService {
   }
 
   pw.Widget _buildSummaryStats(MedicalReport report) {
-    final all = report.sections.expand((s) => s.analyses).where((a) => _isPdfSafeAnalysisName(a.name)).toList();
-    final abnormal = all.where((a) => a.abnormalFlag == AbnormalFlag.high || a.abnormalFlag == AbnormalFlag.low).length;
+    final all = report.sections
+        .expand((s) => s.analyses)
+        .where((a) => _isPdfSafeAnalysisName(a.name))
+        .toList();
+    final abnormal = all
+        .where(
+          (a) =>
+              a.abnormalFlag == AbnormalFlag.high ||
+              a.abnormalFlag == AbnormalFlag.low,
+        )
+        .length;
     return pw.Row(
       children: [
         _metricCard('Sections', '${report.sections.length}'),
@@ -312,7 +372,10 @@ class MedicalReportPdfService {
         pw.SizedBox(width: 8),
         _metricCard('Anormales', '$abnormal'),
         pw.SizedBox(width: 8),
-        _metricCard('Confiance', '${(report.confidence * 100).toStringAsFixed(1)} %'),
+        _metricCard(
+          'Confiance',
+          '${(report.confidence * 100).toStringAsFixed(1)} %',
+        ),
       ],
     );
   }
@@ -327,9 +390,15 @@ class MedicalReportPdfService {
         ),
         child: pw.Column(
           children: [
-            pw.Text(title, style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
+            pw.Text(
+              title,
+              style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700),
+            ),
             pw.SizedBox(height: 2),
-            pw.Text(value, style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold)),
+            pw.Text(
+              value,
+              style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+            ),
           ],
         ),
       ),
@@ -368,7 +437,14 @@ class MedicalReportPdfService {
         5: pw.FlexColumnWidth(1.1),
       },
       children: [
-        _tableHeader(['Section', 'Analyse', 'Valeur', 'Unite', 'Reference', 'Statut']),
+        _tableHeader([
+          'Section',
+          'Analyse',
+          'Valeur',
+          'Unite',
+          'Reference',
+          'Statut',
+        ]),
         ...topRows.map(_tableRow),
       ],
     );
@@ -392,7 +468,10 @@ class MedicalReportPdfService {
         .toList(growable: false);
 
     final out = <pw.Widget>[
-      pw.Text(_latin1ForPdf(section.title), style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 13)),
+      pw.Text(
+        _latin1ForPdf(section.title),
+        style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 13),
+      ),
       pw.SizedBox(height: 6),
     ];
     if (rows.isEmpty) {
@@ -416,7 +495,14 @@ class MedicalReportPdfService {
             5: pw.FlexColumnWidth(1.9),
           },
           children: [
-            _tableHeader(['Analyse', 'Valeur', 'Unite', 'Reference', 'Anterio', 'Interpretation']),
+            _tableHeader([
+              'Analyse',
+              'Valeur',
+              'Unite',
+              'Reference',
+              'Anterio',
+              'Interpretation',
+            ]),
             ...rows.sublist(i, end).map(_tableRow),
           ],
         ),
@@ -436,7 +522,10 @@ class MedicalReportPdfService {
               padding: const pw.EdgeInsets.all(4),
               child: pw.Text(
                 _latin1ForPdf(v),
-                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 9),
+                style: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 9,
+                ),
               ),
             ),
           )
@@ -450,7 +539,10 @@ class MedicalReportPdfService {
           .map(
             (v) => pw.Padding(
               padding: const pw.EdgeInsets.all(4),
-              child: pw.Text(_latin1ForPdf(v), style: const pw.TextStyle(fontSize: 8.7)),
+              child: pw.Text(
+                _latin1ForPdf(v),
+                style: const pw.TextStyle(fontSize: 8.7),
+              ),
             ),
           )
           .toList(growable: false),
@@ -470,7 +562,8 @@ class MedicalReportPdfService {
 
     for (final line in lines) {
       final safeLine = line.trimRight();
-      if ((buffer.length + safeLine.length + 1) > maxChunkChars && buffer.isNotEmpty) {
+      if ((buffer.length + safeLine.length + 1) > maxChunkChars &&
+          buffer.isNotEmpty) {
         chunks.add(buffer.toString());
         buffer.clear();
       }
@@ -484,7 +577,10 @@ class MedicalReportPdfService {
         .map(
           (chunk) => pw.Padding(
             padding: const pw.EdgeInsets.only(bottom: 8),
-            child: pw.Text(_latin1ForPdf(chunk), style: const pw.TextStyle(fontSize: 10)),
+            child: pw.Text(
+              _latin1ForPdf(chunk),
+              style: const pw.TextStyle(fontSize: 10),
+            ),
           ),
         )
         .toList(growable: false);
@@ -494,8 +590,9 @@ class MedicalReportPdfService {
     final normalized = text.replaceAll('\n', ' ').trim();
     if (normalized.isEmpty) return '-';
     const maxLen = 90;
-    final truncated =
-        normalized.length <= maxLen ? normalized : '${normalized.substring(0, maxLen - 1)}...';
+    final truncated = normalized.length <= maxLen
+        ? normalized
+        : '${normalized.substring(0, maxLen - 1)}...';
     return _latin1ForPdf(truncated);
   }
 
